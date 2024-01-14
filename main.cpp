@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
+#include "memoria.h" //se aloja las funciones para escribir/leer en la memoria eeprom
+//#include <EEPROM.h>
 
 #include <WiFi.h>
 #include <FirebaseESP32.h>
@@ -51,10 +53,21 @@ String Npuerta = "0";
 String Nextractor = "0";
 String Nventilador = "0";
 
+int pos=50;
+int pos2=70;
+String usuario="usuario123";
+String contra="clave123";
 
 void setup()
 {
-  Serial.begin(115200);
+    Serial.begin(115200);
+
+    EEPROM.begin(512);  //inicializar el tamano de memoria eeprom a usar
+    escribirStringEnEEPROM(usuario, pos);
+    escribirStringEnEEPROM(contra, pos2);
+
+    Serial.println("la lectura del espacio de la eeprom 50 es: ");
+    Serial.println(leerStringDeEEPROM(pos));
 
   pinMode(pinVerde, OUTPUT);
   pinMode(pinRojo, OUTPUT);
@@ -211,6 +224,15 @@ void loop()
         else if(Npuerta.equals("1")){
             servo_1.write(90);
         }
+        else if(Nventilador.equals("0")){
+            ledcWrite(canalPWM1, 0);
+        }
+        else if(Nextractor.equals("0")){
+            ledcWrite(canalPWM2, 0);
+        }
+        else if(Npuerta.equals("0")){
+            servo_1.write(0);
+        }
     }
     else if ((Signal > 300) and (Signal < 600)) //calidad del aire regular
     {
@@ -230,6 +252,15 @@ void loop()
         else if(Npuerta.equals("1")){
             servo_1.write(90);
         }
+        else if(Nventilador.equals("0")){
+            ledcWrite(canalPWM1, 0);
+        }
+        else if(Nextractor.equals("0")){
+            ledcWrite(canalPWM2, 0);
+        }
+        else if(Npuerta.equals("0")){
+            servo_1.write(0);
+        }
     }
     else if(Signal > 600) //calidad del aire mala
     {
@@ -247,6 +278,15 @@ void loop()
         }
         else if(Npuerta.equals("1")){
             servo_1.write(90);
+        }
+        else if(Nventilador.equals("0")){
+            ledcWrite(canalPWM1, 0);
+        }
+        else if(Nextractor.equals("0")){
+            ledcWrite(canalPWM2, 0);
+        }
+        else if(Npuerta.equals("0")){
+            servo_1.write(0);
         }
     }
     int buttonState = digitalRead(boton); // read new state
