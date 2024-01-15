@@ -7,8 +7,8 @@
 #include <FirebaseESP32.h>
 #include <addons/RTDBHelper.h>
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "SOLANGE-YIGA5-2.4G"
-#define WIFI_PASSWORD "Solang1720"
+#define WIFI_SSID "usuariowifi"
+#define WIFI_PASSWORD "clavewifi"
 /* 2. Define the RTDB URL */
 #define DATABASE_URL "fir-se-ceabc-default-rtdb.firebaseio.com"
 
